@@ -33,21 +33,18 @@ function onSearchForm(e) {
     return;
   }
 
-  fetchImages(query, page, perPage)
-    .then(({ data }) => {
-      if (data.totalHits === 0) {
-        alertNoImagesFound();
-      } else {
-        renderGallery(data.hits);
-        simpleLightBox = new SimpleLightbox('.gallery a').refresh();
-        alertImagesFound(data);
-
-        if (data.totalHits > perPage) {
-          loadMoreBtn.classList.remove('is-hidden');
-        }
+  fetchImages(query, page, perPage).then(({ data: { totalHits, hits } }) => {
+    if (totalHits === 0) {
+      alertNoImagesFound();
+    } else {
+      renderGallery(hits);
+      simpleLightBox = new SimpleLightbox('.gallery a').refresh();
+      alertImagesFound({ totalHits });
+      if (totalHits > perPage) {
+        loadMoreBtn.classList.remove('is-hidden');
       }
-    })
-    .catch(error => console.log(error));
+    }
+  });
 }
 
 function onLoadMoreBtn() {
