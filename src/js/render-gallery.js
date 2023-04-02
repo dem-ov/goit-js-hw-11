@@ -1,3 +1,5 @@
+
+
 export { renderGallery };
 
 const gallery = document.querySelector('.gallery');
@@ -5,8 +7,8 @@ const galleryEl = document.querySelector('.gallery .a');
 
 function renderGallery(images) {
   const markup = images
-    .map(image => {
-      const {
+    .map(
+      ({
         id,
         largeImageURL,
         webformatURL,
@@ -15,8 +17,8 @@ function renderGallery(images) {
         views,
         comments,
         downloads,
-      } = image;
-      return `
+      }) => {
+        return `
         <a class="gallery__link" href="${largeImageURL}">
           <div class="gallery-item" id="${id}">
             <img class="gallery-item__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -29,7 +31,8 @@ function renderGallery(images) {
           </div>
         </a>
       `;
-    })
+      }
+    )
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
